@@ -42,7 +42,7 @@ jobs:
       working-directory: step06_SpringDataJPA
 
     - name: Upload JAR artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3.1.3  # 🔧 최신 안정 버전 직접 지정
       with:
         name: springboot-jar
         path: step06_SpringDataJPA/build/libs/*.jar
