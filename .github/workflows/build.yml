@@ -43,8 +43,8 @@ jobs:
 
     - name: Commit built JAR to repo
       run: |
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
+        git config user.name "Aunsxm"
+        git config user.email "tngus893716@gmail.com"
         git add step06_SpringDataJPA/build/libs/*.jar
         git commit -m "Add built jar"
         git push
