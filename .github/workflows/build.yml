@@ -31,11 +31,3 @@ jobs:
     - name: Build Project
       run: ./gradlew build
       working-directory: step06_SpringDataJPA
-
-    - name: Deploy with Docker
-      run: |
-        docker stop myapp || true
-        docker rm myapp || true
-        docker build -t myapp .
-        docker run -d -p 8080:8080 --name myapp myapp
-      working-directory: step06_SpringDataJPA
