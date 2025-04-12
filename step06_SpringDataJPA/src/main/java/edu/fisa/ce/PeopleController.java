@@ -27,6 +27,7 @@ public class PeopleController {
 		dao.save(new People("연아",20));
 		dao.save(new People("연아",10));
 		dao.save(new People("연아2",10));
+		dao.save(new People("20250412수현", 30));
 		return "저장성공";
 	}
 	
