@@ -1,19 +1,19 @@
-name: Java CI with Gradle
+name: Java CI + Docker Deploy
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: self-hosted
     permissions:
       contents: read
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
     - name: Set up JDK 17
       uses: actions/setup-java@v4
@@ -21,13 +21,27 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
-
-    - name: Grant execute permission
+    - name: Grant execute permission for Gradle Wrapper
       run: chmod +x gradlew
       working-directory: step06_SpringDataJPA
 
-    - name: Build Project
+    - name: Build project with Gradle
       run: ./gradlew build
       working-directory: step06_SpringDataJPA
+
+    - name: Build Docker image
+      run: docker build -t myapp .
+      working-directory: step06_SpringDataJPA
+
+    - name: Stop and remove previous container
+      run: |
+        docker stop myapp || true
+        docker rm myapp || true
+
+    - name: Run Docker container
+      run: docker run -d -p 8080:8080 --name myapp myapp
+
+    - name: Check Docker status (debug)
+      run: |
+        docker ps -a
+        echo "✅ If the container appears above and is 'Up', deployment is successful."
